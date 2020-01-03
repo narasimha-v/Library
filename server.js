@@ -8,6 +8,7 @@ const bodyparser = require('body-parser');
 const expresslayout = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
+const authorRouter = require('./routes/authors')
 
 app.set('view engine','ejs');
 app.set('views',__dirname + '/views');
@@ -16,6 +17,7 @@ app.use(expresslayout);
 app.use(express.static('public'));
 
 app.use('/',indexRouter)
+app.use('/authors',authorRouter)
 
 mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true});
 mongoose.connection.on('error',error=>console.error(error));
