@@ -17,9 +17,6 @@ app.use(bodyparser.urlencoded({ limit: "10mb", extended: false }));
 app.use(expresslayout);
 app.use(express.static("public"));
 
-app.use("/", indexRouter);
-app.use("/authors", authorRouter);
-
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -32,3 +29,6 @@ app.listen(process.env.PORT || 3000, err => {
     console.log("Server Started");
   }
 });
+
+app.use("/", indexRouter);
+app.use("/authors", authorRouter);
