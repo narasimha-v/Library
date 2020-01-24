@@ -6,6 +6,7 @@ const Author = require("../models/Author");
 //All Books Route
 router.get("/", async (req, res) => {
   try {
+    res.send("test");
   } catch (error) {}
 });
 
@@ -16,11 +17,22 @@ router.get("/new", async (req, res) => {
     const book = new Book();
     res.render("books/new", { authors: authors, book: book });
   } catch (error) {
-    //res.redirect("books");
+    res.redirect("/books");
   }
 });
 
 //Create Books Route
-router.post("/", async (req, res) => {});
+router.post("/", async (req, res) => {
+  const { title, author, publishDate, pageCount, description } = req.body;
+  try {
+    const book = new Book({
+      title,
+      author,
+      publishDate: new Date(publishDate),
+      pageCount,
+      description
+    });
+  } catch (error) {}
+});
 
 module.exports = router;
