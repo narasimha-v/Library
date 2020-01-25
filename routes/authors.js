@@ -5,7 +5,7 @@ const Author = require("../models/Author");
 //All Authors Route
 router.get("/", async (req, res) => {
   let searchOptions = {};
-  if (req.query.name !== null && req.query.name !== " ") {
+  if (req.query.name !== null && req.query.name !== "") {
     searchOptions.name = new RegExp(req.query.name, "i");
   }
   try {
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
       name: req.body.name
     });
     const newAuthor = await author.save();
-    //res.redirect(`authors/${(author.id)}`)
+    //res.redirect(`authors/${(newAuthor.id)}`)
     res.redirect("authors");
   } catch (error) {
     console.error(error.message);
