@@ -26,12 +26,12 @@ router.post("/", async (req, res) => {
   let author;
   try {
     author = await Author.findOne({ name: req.body.name });
-    // if (author) {
-    //   return res.render("authors/new", {
-    //     author: author,
-    //     errorMessage: "Author already Exists"
-    //   });
-    // }
+    if (author) {
+      return res.render("authors/new", {
+        author: author,
+        errorMessage: "Author already Exists"
+      });
+    }
     author = new Author({
       name: req.body.name
     });
