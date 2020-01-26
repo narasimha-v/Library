@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   }
   try {
     const authors = await Author.find(searchOptions);
-    res.render("authors/index", { authors: authors, searchOptions: req.query });
+    res.render("author/index", { authors: authors, searchOptions: req.query });
   } catch (error) {
     res.redirect("/");
   }
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 
 //New Authors Route
 router.get("/new", (req, res) => {
-  res.render("authors/new", { author: new Author() });
+  res.render("author/new", { author: new Author() });
 });
 
 //Create Author Route - adding a new author
@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
   try {
     author = await Author.findOne({ name: req.body.name });
     if (author) {
-      return res.render("authors/new", {
+      return res.render("author/new", {
         author: author,
         errorMessage: "Author already Exists"
       });
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
     res.redirect("authors");
   } catch (error) {
     console.error(error.message);
-    res.render("authors/new", {
+    res.render("author/new", {
       author: author,
       errorMessage: "Error Creating Author"
     });
