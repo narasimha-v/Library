@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   }
   try {
     const authors = await Author.find(searchOptions);
-    res.render("authors/index", { authors: authors, searchOptions: req.query });
+    res.render("books/index", { authors: authors, searchOptions: req.query });
   } catch (error) {
     res.redirect("/");
   }
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 
 //New Authors Route
 router.get("/new", (req, res) => {
-  res.render("authors/new", { author: new Author() });
+  res.render("books/new", { author: new Author() });
 });
 
 //Create Author Route - adding a new author
