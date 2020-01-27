@@ -36,8 +36,8 @@ router.post("/", async (req, res) => {
       name: req.body.name
     });
     const newAuthor = await author.save();
-    //res.redirect(`authors/${(newAuthor.id)}`)
-    res.redirect("authors");
+    res.redirect(`/authors/${newAuthor.id}`);
+    //res.redirect("authors");
   } catch (error) {
     console.error(error.message);
     res.render("author/new", {
@@ -62,11 +62,41 @@ router.get("/:id/edit", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  res.send("test3");
+  let author;
+  try {
+    author = await Author.findById(req.params.id);
+    author.name = req.body.name;
+    await author.save();
+    res.redirect(`/authors/${author.id}`);
+    //res.redirect("authors");
+  } catch (error) {
+    console.error(error.message);
+    if (author == null) {
+      res.redirect("/");
+    } else {
+      res.render("author/edit", {
+        author: author,
+        errorMessage: "Error Updating Author"
+      });
+    }
+  }
 });
 
 router.delete("/:id", async (req, res) => {
-  res.send("test4");
+  let author;
+  try {
+    author = await Author.findById(req.params.id);
+    await author.remove();
+    res.redirect(`/authors`);
+    //res.redirect("authors");
+  } catch (error) {
+    console.error(error.message);
+    if (author == null) {
+      res.redirect("/");
+    } else {
+      res.redirect(`/authors/${author.id}`);
+    }
+  }
 });
 
 module.exports = router;
