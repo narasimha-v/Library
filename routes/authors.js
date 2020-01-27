@@ -47,4 +47,26 @@ router.post("/", async (req, res) => {
   }
 });
 
+//
+router.get("/:id", async (req, res) => {
+  res.send("test1");
+});
+
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const author = await Author.findById(req.params.id);
+    res.render("author/edit", { author: author });
+  } catch (error) {
+    res.redirect("/authors");
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  res.send("test3");
+});
+
+router.delete("/:id", async (req, res) => {
+  res.send("test4");
+});
+
 module.exports = router;
