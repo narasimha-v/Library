@@ -63,16 +63,55 @@ router.get("/new", async (req, res) => {
   renderNewPage(res, new Book());
 });
 
+//Show book
+router.get("/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id)
+      .populate("author")
+      .exec();
+    res.render("books/show", { book: book });
+  } catch (error) {
+    res.redirect("/");
+  }
+});
+
+//Edit Books Route
+router.get("/:id/edit", async (req, res) => {
+  try {
+    book = await Book.findById(req.params.id);
+    renderEditPage(res, book);
+  } catch (error) {
+    res.redirect("/");
+  }
+});
+
 async function renderNewPage(res, book, hasError = false) {
+  renderFormPage(res, book, "new", hasError);
+}
+
+async function renderEditPage(res, book, hasError = false) {
+  renderFormPage(res, book, "edit", hasError);
+}
+
+async function renderFormPage(res, book, form, hasError = false) {
   try {
     const authors = await Author.find({});
     const params = { authors: authors, book: book };
     if (hasError) {
       params.errorMessage = "Error creating book";
     }
-    res.render("books/new", params);
+    res.render(`books/${form}`, params);
   } catch (error) {
     res.redirect("/books");
+  }
+}
+
+function saveCover(book, coverEncoded) {
+  if (coverEncoded == null) return;
+  const cover = JSON.parse(coverEncoded);
+  if (cover != null && imageMimeTypes.includes(cover.type)) {
+    book.coverImage = new Buffer.from(cover.data, "base64");
+    book.coverImageType = cover.type;
   }
 }
 
@@ -84,14 +123,5 @@ async function renderNewPage(res, book, hasError = false) {
 //     }
 //   });
 // }
-
-function saveCover(book, coverEncoded) {
-  if (coverEncoded == null) return;
-  const cover = JSON.parse(coverEncoded);
-  if (cover != null && imageMimeTypes.includes(cover.type)) {
-    book.coverImage = new Buffer.from(cover.data, "base64");
-    book.coverImageType = cover.type;
-  }
-}
 
 module.exports = router;
