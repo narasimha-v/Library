@@ -31,3 +31,8 @@ body {
 .inner-container {
   margin: 0 2rem;
 }
+
+.page-header {
+  font-size: 2rem;
+  font-weight: 500;
+}
