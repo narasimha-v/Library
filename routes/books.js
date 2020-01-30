@@ -109,6 +109,23 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+//Delete Books Page
+router.delete("/:id", async (req, res) => {
+  let book;
+  try {
+    book = await Book.findById(req.params.id);
+    await book.remove();
+    res.redirect(`/books`);
+  } catch (error) {
+    console.error(error.message);
+    if (book == null) {
+      res.redirect("/");
+    } else {
+      res.redirect(`/books/${book.id}`);
+    }
+  }
+});
+
 async function renderNewPage(res, book, hasError = false) {
   renderFormPage(res, book, "new", hasError);
 }
