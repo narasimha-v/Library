@@ -29,9 +29,11 @@
     <link id="main-css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
-    <br />
-    <%- include('../partials/header.ejs') %> <%-
-    include('../partials/errorMessage.ejs') %> <%- body %>
-    <br />
+    <div class="container">
+      <%- include('../partials/header.ejs') %>
+      <div class="container">
+        <%- include('../partials/errorMessage.ejs') %> <%- body %>
+      </div>
+    </div>
   </body>
 </html>
